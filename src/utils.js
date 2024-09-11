@@ -26,3 +26,20 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+export function pluralizedCount(count) {
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+    return `| Выделяли ${count} раз`;
+  }
+
+  if (lastDigit === 1) {
+    return `| Выделяли ${count} раз`;
+  } else if (lastDigit >= 2 && lastDigit <= 4) {
+    return `| Выделяли ${count} раза`;
+  } else {
+    return `| Выделяли ${count} раз`;
+  }
+}
