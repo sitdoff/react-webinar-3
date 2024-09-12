@@ -31,7 +31,14 @@ function App({ store }) {
                   {item.title} {item.selectCount ? pluralizedCount(item.selectCount) : ''}
                 </div>
                 <div className="Item-actions">
-                  <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      store.deleteItem(item.code);
+                    }}
+                  >
+                    Удалить
+                  </button>
                 </div>
               </div>
             </div>
