@@ -27,19 +27,26 @@ export function createElement(name, props = {}, ...children) {
   return element;
 }
 
-export function pluralizedCount(count) {
+export function pluralizedCount(count, templates) {
+  const defaults = {
+    firstForm: count => `${count} раз`,
+    secondForm: count => `${count} раза`,
+  };
+
+  const phrases = { ...defaults, ...templates };
+
   const lastDigit = count % 10;
   const lastTwoDigits = count % 100;
 
   if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-    return `| Выделяли ${count} раз`;
+    return phrases.firstForm(count);
   }
 
   if (lastDigit === 1) {
-    return `| Выделяли ${count} раз`;
+    return phrases.firstForm(count);
   } else if (lastDigit >= 2 && lastDigit <= 4) {
-    return `| Выделяли ${count} раза`;
+    return phrases.secondForm(count);
   } else {
-    return `| Выделяли ${count} раз`;
+    return phrases.firstForm(count);
   }
 }

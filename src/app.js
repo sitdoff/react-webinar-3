@@ -10,6 +10,11 @@ import './styles.css';
 function App({ store }) {
   const list = store.getState().list;
 
+  const templates = {
+    firstForm: count => `| Выделяли ${count} раз`,
+    secondForm: count => `| Выделяли ${count} раза`,
+  };
+
   return (
     <div className="App">
       <div className="App-head">
@@ -28,7 +33,8 @@ function App({ store }) {
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">
-                  {item.title} {item.selectCount ? pluralizedCount(item.selectCount) : ''}
+                  {item.title}{' '}
+                  {item.selectCount ? pluralizedCount(item.selectCount, templates) : ''}
                 </div>
                 <div className="Item-actions">
                   <button
