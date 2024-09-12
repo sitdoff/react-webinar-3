@@ -1,4 +1,4 @@
-import { pluralizedCount } from '../utils';
+import { pluralizedCount } from '../src/utils';
 
 describe('pluralizedCount function', () => {
   test('должно возвращать "1 раз" для 1', () => {
