@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
-import List from './components/list';
-import Controls from './components/controls';
+import React, { useCallback, useState, useEffect } from 'react';
+import CartInfo from './components/cart-info';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
+import CartModal from './components/cart-modal';
+import ItemList from './components/item-list';
 
 /**
  * Приложение
@@ -12,35 +13,39 @@ import PageLayout from './components/page-layout';
 function App({ store }) {
   const list = store.getState().list;
 
-  const callbacks = {
-    onDeleteItem: useCallback(
-      code => {
-        store.deleteItem(code);
-      },
-      [store],
-    ),
+  const [isModalOpen, setModalOpen] = useState(false);
 
-    onSelectItem: useCallback(
-      code => {
-        store.selectItem(code);
-      },
-      [store],
-    ),
-
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store]),
+  const modalCallbacks = {
+    openModal: () => setModalOpen(true),
+    closeModal: () => setModalOpen(false),
   };
+
+  const [cartState, setCartState] = useState({
+    items: store.cart.getItems(),
+    itemCount: store.cart.getItemCount(),
+    totalPrice: store.cart.getTotalPrice(),
+  });
+
+  useEffect(() => {
+    const unsubscribe = store.cart.subscribe(() => {
+      setCartState({
+        items: store.cart.getItems(),
+        itemCount: store.cart.getItemCount(),
+        totalPrice: store.cart.getTotalPrice(),
+      });
+    });
+
+    return () => unsubscribe();
+  }, [store.cart]);
 
   return (
     <PageLayout>
-      <Head title="Приложение на чистом JS" />
-      <Controls onAdd={callbacks.onAddItem} />
-      <List
-        list={list}
-        onDeleteItem={callbacks.onDeleteItem}
-        onSelectItem={callbacks.onSelectItem}
-      />
+      <Head title="Магазин" />
+      <CartInfo cartState={cartState} buttonCallback={modalCallbacks.openModal} />
+      <ItemList list={list} cart={store.cart} />
+      {isModalOpen && (
+        <CartModal cart={store.cart} cartState={cartState} callbacks={modalCallbacks} />
+      )}
     </PageLayout>
   );
 }

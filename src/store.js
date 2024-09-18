@@ -1,4 +1,5 @@
 import { generateCode } from './utils';
+import Cart from './cart.js';
 
 /**
  * Хранилище состояния приложения
@@ -7,6 +8,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.cart = new Cart();
   }
 
   /**
