@@ -9,12 +9,10 @@ function CartInfo({ cartState, buttonCallback }) {
       <span>
         В корзине:{' '}
         {cartState.itemCount ? (
-          <>
-            <b>
-              {cartState.itemCount} {plural(cartState.itemCount, 'товар', 'товара', 'товаров')} /{' '}
-              {cartState.totalPrice.toLocaleString()} ₽
-            </b>
-          </>
+          <b>
+            {cartState.itemCount} {plural(cartState.itemCount, 'товар', 'товара', 'товаров')} /{' '}
+            {cartState.totalPrice.toLocaleString()} ₽
+          </b>
         ) : (
           <b>пусто</b>
         )}
@@ -25,7 +23,7 @@ function CartInfo({ cartState, buttonCallback }) {
 }
 
 CartInfo.propTypes = {
-  cartStat: PropTypes.shape({
+  cartState: PropTypes.shape({
     items: PropTypes.arrayOf(
       PropTypes.shape({
         code: PropTypes.number,

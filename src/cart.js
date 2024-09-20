@@ -34,6 +34,7 @@ class Cart {
         quantity,
       });
     }
+    this.items.sort((a, b) => a.code - b.code);
     this.notify();
   }
 

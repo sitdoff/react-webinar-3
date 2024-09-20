@@ -1,26 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './style.css';
-import ItemList from '../item-list';
-import Head from '../head';
+import CartModalHead from '../cart-modal-head';
+import CartModalLayout from '../cart-modal-layout';
+import CartModalBottom from '../cart-modal-bottom';
+import CartModalItemList from '../cart-modal-item-list';
 
-function CartModal({ cart, cartState, callbacks }) {
+function CartModal({ cart, callbacks }) {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <div className="modal-head">
-          <Head title="Корзина" buttonCallback={callbacks.closeModal} />
-        </div>
-        {cart.items.length > 0 ? (
-          <>
-            <ItemList list={cartState.items} cart={cart} isCartModal />
-            <div className="total">Итого: {cart.getTotalPrice().toLocaleString()} ₽</div>
-          </>
-        ) : (
-          <div className="empty">Корзина пуста</div>
-        )}
-      </div>
-    </div>
+    <CartModalLayout>
+      <CartModalHead title="Корзина" buttonCallback={callbacks.closeModal} />
+      <CartModalItemList cart={cart} />
+      <CartModalBottom totalPrice={cart.getTotalPrice()} itemCount={cart.getItemCount()} />
+    </CartModalLayout>
   );
 }
 
@@ -33,7 +25,6 @@ CartModal.propTypes = {
         price: PropTypes.number,
       }),
     ).isRequired,
-    getTotalPrice: PropTypes.func.isRequired,
   }),
   callbacks: PropTypes.shape({
     closeModal: PropTypes.func.isRequired,

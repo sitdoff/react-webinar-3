@@ -1,0 +1,37 @@
+.CartModalItem {
+  border-top: 1px dashed #cccccc;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  transition: background-color 1s;
+}
+
+.CartModalItem-code {
+  padding: 20px 20px 20px 20px;
+}
+
+.CartModalItem-title {
+  width: 100%;
+  padding: 20px 10px;
+}
+
+.CartModalItem-price {
+  /* display: flex; */
+  /* justify-content: center; */
+  text-wrap: nowrap;
+  padding: 20px 31px 20px 10px;
+}
+
+.CartModalItem-quantity {
+  display: flex;
+  justify-content: flex-end;
+  text-wrap: nowrap;
+  padding: 20px 12px 20px 31px;
+}
+
+.CartModalItem-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 20px 20px 12px;
+}

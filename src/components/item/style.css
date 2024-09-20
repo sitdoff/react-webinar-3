@@ -4,18 +4,6 @@
   transition: background-color 1s;
 }
 
-.CartModalItem {
-  border-bottom: 1px solid #f5f5f5;
-  display: flex;
-  justify-content: flex-start;
-  transition: background-color 1s;
-}
-
-.Item_selected {
-  background: #75aaf1;
-  color: #fff;
-}
-
 .Item-code {
   padding: 20px 10px 20px 20px;
 }
@@ -26,21 +14,12 @@
 }
 
 .Item-price {
-  display: flex;
-  justify-content: flex-end;
+  text-align: end;
   text-wrap: nowrap;
-  padding: 20px 20px 20px 10px;
-}
-
-.Item-quantity {
-  display: flex;
-  justify-content: flex-end;
-  text-wrap: nowrap;
-  padding: 20px 20px 20px 10px;
+  padding: 20px 10px 20px 10px;
+  min-width: 86px;
 }
 
 .Item-actions {
-  display: flex;
-  justify-content: flex-end;
   padding: 20px 20px 20px 10px;
 }

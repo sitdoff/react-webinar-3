@@ -1,0 +1,25 @@
+.CartModalBottom {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-top: 1px dashed #cccccc;
+  font-weight: bold;
+}
+
+.CartModalBottom-total {
+  display: flex;
+  margin-bottom: 70px;
+}
+
+.CartModalBottom-label {
+  font-size: 18px;
+  padding: 20px 0px 20px 00px;
+  margin-right: 53px;
+}
+
+.CartModalBottom-price {
+  padding: 20px 00px 20px 00px;
+  margin-right: 110px;
+  font-size: 18px;
+  text-align: right;
+}

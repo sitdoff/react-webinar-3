@@ -1,9 +1,11 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import CartInfo from './components/cart-info';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
 import CartModal from './components/cart-modal';
 import ItemList from './components/item-list';
+import Item from './components/item';
+import MainItemList from './components/main-item-list';
 
 /**
  * Приложение
@@ -11,8 +13,6 @@ import ItemList from './components/item-list';
  * @returns {React.ReactElement}
  */
 function App({ store }) {
-  const list = store.getState().list;
-
   const [isModalOpen, setModalOpen] = useState(false);
 
   const modalCallbacks = {
@@ -42,10 +42,8 @@ function App({ store }) {
     <PageLayout>
       <Head title="Магазин" />
       <CartInfo cartState={cartState} buttonCallback={modalCallbacks.openModal} />
-      <ItemList list={list} cart={store.cart} />
-      {isModalOpen && (
-        <CartModal cart={store.cart} cartState={cartState} callbacks={modalCallbacks} />
-      )}
+      <MainItemList store={store} />
+      {isModalOpen && <CartModal cart={store.cart} callbacks={modalCallbacks} />}
     </PageLayout>
   );
 }
