@@ -1,0 +1,37 @@
+.pagination {
+  display: flex;
+  justify-content: end;
+  margin-top: 22px;
+  margin-right: 21px;
+}
+
+.pagination span {
+  display: inline-block;
+  text-align: center;
+  line-height: 20px;
+  min-width: 20px;
+  height: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 1px;
+}
+
+.pagination span:hover {
+  background: #e1e1e1;
+}
+
+.pagination .active {
+  background: #0087e9;
+  color: #ffffff;
+}
+
+.pagination .active:hover {
+  background: #0087e9;
+  color: #ffffff;
+  cursor: default;
+}
+
+.pagination .dots:hover {
+  background: inherit;
+  cursor: default;
+}
