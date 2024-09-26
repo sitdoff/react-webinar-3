@@ -25,7 +25,7 @@ List.propTypes = {
 };
 
 List.defaultProps = {
-  renderItem: item => {},
+  renderItem: item => { },
 };
 
 export default memo(List);
