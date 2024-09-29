@@ -4,23 +4,24 @@ import { cn as bem } from '@bem-react/classname';
 import { numberFormat } from '../../utils';
 import './style.css';
 import { Link } from 'react-router-dom';
+import { getProductLink } from '../../utils';
 
-function Item(props) {
+function Item({ item, onAdd, basicPath = '/products' }) {
   const cn = bem('Item');
 
   const callbacks = {
-    onAdd: e => props.onAdd(props.item._id),
+    addCallback: e => onAdd(item._id),
   };
 
   return (
     <div className={cn()}>
-      {/*<div className={cn('code')}>{props.item._id}</div>*/}
+      {/*<div className={cn('code')}>{item._id}</div>*/}
       <div className={cn('title')}>
-        <Link to={`/products/${props.item._id}`}>{props.item.title}</Link>
+        <Link to={getProductLink(item._id, basicPath)}>{item.title}</Link>
       </div>
       <div className={cn('actions')}>
-        <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>Добавить</button>
+        <div className={cn('price')}>{numberFormat(item.price)} ₽</div>
+        <button onClick={callbacks.addCallback}>Добавить</button>
       </div>
     </div>
   );

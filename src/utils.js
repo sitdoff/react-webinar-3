@@ -33,3 +33,13 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function getProductLink(product_id, basicPath) {
+  if (basicPath[0] !== '/') {
+    basicPath = '/' + basicPath;
+  }
+  if (basicPath[basicPath.length - 1] !== '/') {
+    basicPath = basicPath + '/';
+  }
+  return basicPath + product_id;
+}
