@@ -1,0 +1,10 @@
+.main-link {
+  margin-top: 18px;
+  margin-left: 20px;
+}
+
+.main-link a {
+  font-size: 18px;
+  font-weight: 400;
+  color: #0087e9;
+}
