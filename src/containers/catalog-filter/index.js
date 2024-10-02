@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo, useEffect } from 'react';
 import useTranslate from '../../hooks/use-translate';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
@@ -12,9 +12,16 @@ import SideLayout from '../../components/side-layout';
 function CatalogFilter() {
   const store = useStore();
 
+  // console.log(store.actions.catalog);
+  useEffect(() => {
+    store.actions.catalog.getCategoryList();
+  }, [store]);
+
   const select = useSelector(state => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
+    categories: state.catalog.categoryList,
+    category: state.catalog.params.category,
   }));
 
   const callbacks = {
@@ -24,6 +31,11 @@ function CatalogFilter() {
     onSearch: useCallback(query => store.actions.catalog.setParams({ query, page: 1 }), [store]),
     // Сброс
     onReset: useCallback(() => store.actions.catalog.resetParams(), [store]),
+    // Категория
+    onCategory: useCallback(
+      category => store.actions.catalog.setParams({ category, page: 1 }),
+      [store],
+    ),
   };
 
   const options = {
@@ -36,12 +48,19 @@ function CatalogFilter() {
       ],
       [],
     ),
+    categories: select.categories,
   };
+  console.log('Options', options);
 
   const { t } = useTranslate();
 
   return (
     <SideLayout padding="medium">
+      <Select
+        options={options.categories}
+        value={select.category}
+        onChange={callbacks.onCategory}
+      />
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
       <Input
         value={select.query}

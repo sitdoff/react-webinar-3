@@ -16,7 +16,9 @@ class CatalogState extends StoreModule {
         limit: 10,
         sort: 'order',
         query: '',
+        category: '',
       },
+      categoryList: [],
       count: 0,
       waiting: false,
     };
@@ -36,6 +38,7 @@ class CatalogState extends StoreModule {
       validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+    if (urlParams.has('category')) validParams.category = urlParams.get('category');
     await this.setParams({ ...this.initState().params, ...validParams, ...newParams }, true);
   }
 
@@ -86,6 +89,7 @@ class CatalogState extends StoreModule {
       sort: params.sort,
       'search[query]': params.query,
     };
+    params.category ? (apiParams['search[category]'] = params.category) : '';
 
     const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}`);
     const json = await response.json();
@@ -98,6 +102,45 @@ class CatalogState extends StoreModule {
       },
       'Загружен список товаров из АПИ',
     );
+  }
+
+  async getCategoryList() {
+    try {
+      const response = await fetch('/api/v1/categories');
+      const data = await response.json();
+
+      function parseCategories(items, parentKey = null, depth = 0) {
+        const result = [];
+
+        const filteredItems = items.filter(item => {
+          return item.parent ? item.parent._key === parentKey : parentKey === null;
+        });
+
+        filteredItems.forEach(item => {
+          result.push({
+            value: item._id,
+            title: `${'-'.repeat(depth)} ${item.title}`,
+          });
+
+          result.push(...parseCategories(items, item._key, depth + 1));
+        });
+
+        // console.log(result);
+        return result;
+      }
+
+      const categoryList = parseCategories(data.result.items);
+      const finalCategoryList = [{ title: 'Все', value: '' }, ...categoryList];
+
+      // console.log(categoryList);
+
+      this.setState({ ...this.getState(), categoryList: finalCategoryList });
+
+      console.log('Category list loaded');
+      console.log('Category list', this.getState().categoryList);
+    } catch (error) {
+      console.error('Ошибка при получении категорий:', error);
+    }
   }
 }
 
