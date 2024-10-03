@@ -8,12 +8,15 @@ import Head from '../../components/head';
 import CatalogFilter from '../../containers/catalog-filter';
 import CatalogList from '../../containers/catalog-list';
 import LocaleSelect from '../../containers/locale-select';
+import ContainerUserBar from '../../containers/container-user-bar';
 
 /**
  * Главная страница - первичная загрузка каталога
  */
 function Main() {
   const store = useStore();
+
+  const { t } = useTranslate();
 
   useInit(
     () => {
@@ -23,10 +26,9 @@ function Main() {
     true,
   );
 
-  const { t } = useTranslate();
-
   return (
     <PageLayout>
+      <ContainerUserBar />
       <Head title={t('title')}>
         <LocaleSelect />
       </Head>

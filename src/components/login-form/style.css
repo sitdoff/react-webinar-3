@@ -1,0 +1,19 @@
+.LoginForm {
+  margin: 20px;
+}
+
+.LoginForm-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 17px;
+}
+
+.LoginForm-input {
+  margin-bottom: 20px;
+}
+
+.LoginForm-error {
+  margin-bottom: 20px;
+  color: #ff0000;
+  min-height: 20px;
+}

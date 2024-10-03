@@ -1,0 +1,20 @@
+.ProfileInfo {
+  margin: 40px 0px 30px 20px;
+}
+
+.ProfileInfo-title {
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.ProfileInfo-name,
+.ProfileInfo-phone,
+.ProfileInfo-email {
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.ProfileInfo-span {
+  font-weight: 700;
+}
