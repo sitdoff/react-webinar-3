@@ -6,10 +6,8 @@ import StoreModule from '../module';
 class UserState extends StoreModule {
   initState() {
     return {
-      token: '',
-      username: '',
-      profile: {},
-      email: '',
+      token: localStorage.getItem('token') || '',
+      username: localStorage.getItem('username') || '',
     };
   }
   async getToken(loginData) {
@@ -20,7 +18,6 @@ class UserState extends StoreModule {
       },
       body: JSON.stringify(loginData),
     });
-    // console.log(JSON.stringify(loginData));
 
     if (!response.ok) {
       const json = await response.json();
@@ -34,10 +31,18 @@ class UserState extends StoreModule {
       token: json.result.token,
       username: json.result.user.profile.name,
     });
+    localStorage.setItem('token', json.result.token);
+    localStorage.setItem('username', json.result.user.profile.name);
   }
-  async getProfile() {
-    const response = await fetch('/api/v1/users/self?fields=profile,email', {
-      method: 'GET',
+
+  async resetState() {
+    await this.revokeToken();
+    this.setState({ ...this.initState() });
+  }
+
+  async revokeToken() {
+    const response = await fetch('/api/v1/users/sign', {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'X-token': this.getState().token,
@@ -46,15 +51,9 @@ class UserState extends StoreModule {
     if (!response.ok) {
       const json = await response.json();
       throw new Error(json.error.message);
-      // console.log(json.error.message);
     }
-    const json = await response.json();
-    // console.log('getProfile json', json);
-    this.setState({ ...this.getState(), profile: json.result.profile, email: json.result.email });
-    // console.log('getProfile', json.result.profile);
-  }
-  resetState() {
-    this.setState({ ...this.initState() });
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
   }
 }
 

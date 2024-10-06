@@ -7,6 +7,8 @@ function Select(props) {
     props.onChange(e.target.value);
   };
 
+  props.formatFunction ? (props.options = props.formatFunction(props.options)) : props.options;
+
   return (
     <select className="Select" value={props.value} onChange={onSelect}>
       {props.options.map(item => (
@@ -30,7 +32,7 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
-  onChange: () => {},
+  onChange: () => { },
 };
 
 export default memo(Select);

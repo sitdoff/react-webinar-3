@@ -3,7 +3,6 @@ import './style.css';
 import { cn as bem } from '@bem-react/classname';
 
 export default function ProfileInfo(props) {
-  console.log('ProfileInfo', props.profile);
   const cn = bem('ProfileInfo');
   return (
     <div className={cn()}>

@@ -14,13 +14,13 @@ function CatalogFilter() {
 
   // console.log(store.actions.catalog);
   useEffect(() => {
-    store.actions.catalog.getCategoryList();
+    store.actions.categories.getCategoryList();
   }, [store]);
 
   const select = useSelector(state => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
-    categories: state.catalog.categoryList,
+    categories: state.categories.categoryList,
     category: state.catalog.params.category,
   }));
 
@@ -36,6 +36,10 @@ function CatalogFilter() {
       category => store.actions.catalog.setParams({ category, page: 1 }),
       [store],
     ),
+    fomatCategories: useCallback(
+      categories => store.actions.categories.formatCategories(categories),
+      [],
+    ),
   };
 
   const options = {
@@ -50,7 +54,7 @@ function CatalogFilter() {
     ),
     categories: select.categories,
   };
-  console.log('Options', options);
+  // console.log('Options', options);
 
   const { t } = useTranslate();
 
@@ -60,6 +64,7 @@ function CatalogFilter() {
         options={options.categories}
         value={select.category}
         onChange={callbacks.onCategory}
+        formatFunction={callbacks.fomatCategories}
       />
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
       <Input

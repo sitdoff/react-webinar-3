@@ -16,11 +16,11 @@ export default function ContainerUserBar() {
   const navigateLogin = () => navigate('/login');
 
   const callbacks = {
-    onClickCallback: useCallback(() => {
+    onClickCallback: useCallback(async () => {
       if (!select.token) {
         navigateLogin();
       } else {
-        store.actions.user.resetState();
+        await store.actions.user.resetState();
         navigateLogin();
       }
     }, [store]),

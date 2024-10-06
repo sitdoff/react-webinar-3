@@ -103,45 +103,6 @@ class CatalogState extends StoreModule {
       'Загружен список товаров из АПИ',
     );
   }
-
-  async getCategoryList() {
-    try {
-      const response = await fetch('/api/v1/categories');
-      const data = await response.json();
-
-      function parseCategories(items, parentKey = null, depth = 0) {
-        const result = [];
-
-        const filteredItems = items.filter(item => {
-          return item.parent ? item.parent._key === parentKey : parentKey === null;
-        });
-
-        filteredItems.forEach(item => {
-          result.push({
-            value: item._id,
-            title: `${'-'.repeat(depth)} ${item.title}`,
-          });
-
-          result.push(...parseCategories(items, item._key, depth + 1));
-        });
-
-        // console.log(result);
-        return result;
-      }
-
-      const categoryList = parseCategories(data.result.items);
-      const finalCategoryList = [{ title: 'Все', value: '' }, ...categoryList];
-
-      // console.log(categoryList);
-
-      this.setState({ ...this.getState(), categoryList: finalCategoryList });
-
-      console.log('Category list loaded');
-      console.log('Category list', this.getState().categoryList);
-    } catch (error) {
-      console.error('Ошибка при получении категорий:', error);
-    }
-  }
 }
 
 export default CatalogState;
