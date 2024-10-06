@@ -8,37 +8,57 @@ class CategoryList extends StoreModule {
   }
   async getCategoryList() {
     try {
-      const response = await fetch('/api/v1/categories');
+      // const response = await fetch('/api/v1/categories');
+      const response = await fetch('/api/v1/categories?fields=_id,title,parent(_id)&limit=*');
       const json = await response.json();
 
       this.setState({ ...this.getState(), categoryList: json.result.items });
 
       console.log('Category list loaded');
-      // console.log('Category list', this.getState().categoryList);
     } catch (error) {
       console.error('Ошибка при получении категорий:', error);
     }
   }
-  formatCategories(items, parentKey = null, depth = 0) {
+
+  formatCategories(items) {
     const result = [];
+    const parentMap = new Map();
+    const childrenMap = new Map();
 
-    const filteredItems = items.filter(item => {
-      return item.parent ? item.parent._key === parentKey : parentKey === null;
+    items.forEach(item => {
+      parentMap.set(item._id, item.parent ? item.parent._id : null);
+      childrenMap.set(item._id, []);
     });
 
-    filteredItems.forEach(item => {
+    items.forEach(item => {
+      const parentId = item.parent ? item.parent._id : null;
+      if (parentId) {
+        childrenMap.get(parentId).push(item);
+      }
+    });
+
+    const addCategories = (parentKey, depth) => {
+      const children = childrenMap.get(parentKey) || [];
+      for (const child of children) {
+        result.push({
+          value: child._id,
+          title: '- '.repeat(depth) + child.title,
+        });
+        addCategories(child._id, depth + 1);
+      }
+    };
+
+    const rootItems = items.filter(item => !item.parent);
+    for (const rootItem of rootItems) {
       result.push({
-        value: item._id,
-        title: `${'- '.repeat(depth)} ${item.title}`,
+        value: rootItem._id,
+        title: rootItem.title,
       });
-
-      result.push(...this.formatCategories(items, item._key, depth + 1));
-    });
-
-    if (!depth) {
-      // console.log('Format result', result);
-      result.unshift({ title: 'Все', value: '' });
+      addCategories(rootItem._id, 1);
     }
+
+    result.unshift({ title: 'Все', value: '' });
+
     return result;
   }
 }
