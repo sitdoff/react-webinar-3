@@ -1,0 +1,32 @@
+.ReplyForm-textarea {
+  margin-bottom: 10px;
+}
+
+.ReplyForm-label {
+  font-weight: 700;
+  font-size: 12px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.ReplyForm-textarea textarea {
+  resize: none;
+  min-width: 100%;
+  min-height: 80px;
+  margin-bottom: 10px;
+}
+
+.ReplyForm-textarea button {
+  margin-right: 10px;
+}
+
+.ReplyForm-no-session {
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.ReplyForm-link {
+  font-size: 16px;
+  color: #0087e9;
+}
