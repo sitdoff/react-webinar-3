@@ -45,7 +45,11 @@ export default function ReplyForm({ parent, cancelButton, isOpen, callbacks }) {
     );
   } else {
     return (
-      <div ref={formRef} className={cn('no-session')}>
+      <div
+        ref={formRef}
+        className={cn('no-session')}
+        style={{ marginLeft: parent.level ? parent.level * 20 : 0 }}
+      >
         <a className={cn('link')} href="#" onClick={callbacks.onSignIn}>
           Войдите
         </a>
